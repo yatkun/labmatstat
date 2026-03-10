@@ -116,30 +116,17 @@ new class extends Component {
 
     public function downloadPDF()
     {
-        $jadwals = \App\Models\Jadwal::where('hari', $this->hari)->get();
-        
-        $pdf = \PDF::loadView('pdf.jadwal', [
-            'hari' => $this->hari,
-            'jadwals' => $jadwals,
-        ]);
-        
-        return $pdf->download('jadwal-' . strtolower($this->hari) . '.pdf');
+        return redirect()->route('jadwal.pdf', $this->hari);
     }
 
     public function downloadAllPDF()
     {
-        $jadwals = \App\Models\Jadwal::all()->groupBy('hari');
-        
-        $pdf = \PDF::loadView('pdf.jadwal-all', [
-            'jadwals' => $jadwals,
-        ]);
-        
-        return $pdf->download('jadwal-lengkap.pdf');
+        return redirect()->route('jadwal.pdf.all');
     }
 
     public function render()
     {
-        return view('pages.jadwal.⚡view', [
+        return view('pages.jadwal.view', [
             'hari' => $this->hari,
             'jadwals' => \App\Models\Jadwal::where('hari', $this->hari)->get(),
             'allJadwals' => \App\Models\Jadwal::all(),
